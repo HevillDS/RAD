@@ -1,0 +1,82 @@
+<nav>
+    <?php
+    NavBar::begin([
+        'brandLabel' => Yii::$app->name,
+        'brandUrl' => Yii::$app->homeUrl,
+        'options' => [
+            'class' => 'navbar-inverse navbar-fixed-top',
+        ],
+    ]);
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => [
+            ['label' => 'Авиатор', 'url' => ['/site/index']],
+            ['label' => 'Публикации', 'url' => ['/site/publications']],
+            Yii::$app->user->isGuest ? (
+                ['label' => 'Вход', 'url' => ['/site/login']]
+
+            ) : (
+                '<li>'
+                . Html::beginForm(['/site/logout'], 'post')
+                . Html::submitButton(
+                    'Выйти (' . Yii::$app->user->identity->email . ')',
+                    ['class' => 'btn btn-link logout']
+                )
+                . Html::endForm()
+                . '</li>'
+            )
+        ],
+    ]);
+    NavBar::end();
+    ?>
+
+</nav>
+
+
+
+<header>
+    <nav class="menu">
+      <div class="menu__icon">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <ul class="menu__links">
+        <li><a class="menu__links-item" href=<?= Url::toRoute(['site/index'])?>>Авиатор</a></li>
+        <li><a class="menu__links-item" href=<?= Url::toRoute(['site/publications'])?>>Публикации</a></li>
+        <li><a class="menu__links-item" href=<?= Url::toRoute(['site/registry'])?>>Регистрация</a></li>  
+        <li><a class="menu__links-item" href=<?= Url::toRoute(['site/login'])?>>Вход</a></li>       
+      </ul>
+    </nav>
+  </header>
+
+
+
+
+
+
+
+
+  public function actionLogin()
+    {
+        if(!Yii::$app->user->isGuest)
+        {
+            return $this->goHome();
+        }
+
+        $login_model = new Login();
+        
+        if( Yii::$app->request->post('Login'))
+        {
+            $login_model->attributes = Yii::$app->request->post('Login');
+
+            if($login_model->validate())
+            {
+                Yii::$app->user->login($login_model->getUser());
+                return $this->render('index');
+            }
+        }
+
+        return $this->render('login',['login_model'=>$login_model]);
+    }
