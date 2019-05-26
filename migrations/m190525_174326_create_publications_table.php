@@ -7,7 +7,7 @@ use yii\db\Migration;
  * Has foreign keys to the tables:
  *
  * - `{{%user}}`
- * - `{{%publications_category}}`
+ * - `{{%publications_categories}}`
  */
 class m190525_174326_create_publications_table extends Migration
 {
@@ -51,12 +51,12 @@ class m190525_174326_create_publications_table extends Migration
             'publications_category_id'
         );
 
-        // add foreign key for table `{{%publications_category}}`
+        // add foreign key for table `{{%publications_categories}}`
         $this->addForeignKey(
             '{{%fk-publications-publications_category_id}}',
             '{{%publications}}',
             'publications_category_id',
-            '{{%publications_category}}',
+            '{{%publications_categories}}',
             'id',
             'CASCADE'
         );
@@ -79,7 +79,7 @@ class m190525_174326_create_publications_table extends Migration
             '{{%publications}}'
         );
 
-        // drops foreign key for table `{{%publications_category}}`
+        // drops foreign key for table `{{%publications_categories}}`
         $this->dropForeignKey(
             '{{%fk-publications-publications_category_id}}',
             '{{%publications}}'
