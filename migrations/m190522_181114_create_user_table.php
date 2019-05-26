@@ -13,12 +13,14 @@ class m190522_181114_create_user_table extends Migration
     public function safeUp()
     {
         $this->createTable('{{%user}}', [
-            'user_id' => $this->primaryKey(),
+            'id' => $this->primaryKey(),
             'name' => $this->string(),
             'email' => $this->string(),
             'password' => $this->string(),
-            'isAdmin' => $this->integer(),
+            'isAdmin' => $this->integer()->defaultValue(0),
             'image' => $this->string(),
+            'bike' => $this->string(),
+            'aboutUser' => $this->string(),
         ]);
     }
 
